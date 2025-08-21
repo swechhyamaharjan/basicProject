@@ -1,6 +1,9 @@
 import app from "./app.js"
+import connectDB from "./utils/db.js";
 const PORT = 3000;
 
-app.listen(PORT, ()=> 
-  console.log(`Server is up and running on http://localhost:${PORT}`)
-);
+connectDB().then(() => {
+  app.listen(PORT, () =>
+    console.log(`Server is up and running on http://localhost:${PORT}`)
+  )
+});
