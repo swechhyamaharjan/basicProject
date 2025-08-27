@@ -2,7 +2,7 @@ import Product from "../models/product.js";
 
 const getProducts = async (req, res) => {
  try {
-  const products = await Product.find();
+  const products = await Product.find().populate('user', "fullname email -_id");
   res.send(products);
  } catch (error) {
   res.status(500).send({error: error.message});
@@ -23,7 +23,7 @@ const getTopProducts = async (req, res) => {
 
 const addProduct = async (req, res) => {
   const productBody = req.body;
-  const product = await Product.create(productBody);
+  const product = await Product.create({...productBody, user: req.user._id});
   res.send({message: "Product Added Successfully!!", product});
 }
 

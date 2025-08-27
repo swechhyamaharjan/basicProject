@@ -2,6 +2,11 @@ import mongoose from "mongoose";
 import { z } from 'zod';
 
 const productSchema = new mongoose.Schema({
+  user: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "User",
+    required: true,
+  },
   name: {
     type: String,
     required: true
@@ -44,6 +49,17 @@ export const productAddSchema = z.object({
   numReviews: z.number().default(0),
   image: z.string().default("/images/sample.jpg"),
 })
+
+export const productUpdateSchema = z.object({
+  name: z.string().min(2).optional(),
+  description: z.string().optional(),
+  price: z.number().optional(),
+  category: z.string().min(2).optional(),
+  brand: z.string().optional(),
+  rating: z.number().optional(),
+  numReviews: z.number().optional(),
+  image: z.string().optional(),
+});
 
 const Product = mongoose.model("Product", productSchema);
 

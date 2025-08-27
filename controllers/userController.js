@@ -44,4 +44,14 @@ const login = async (req, res) => {
     return res.status(404).send({error: "Password not matched!"})
   }
 }
-export { signup, login};
+const logout = async(req, res) => {
+  if(req.user){
+    res.clearCookie('jwt');
+    res.send({message: "Logout success!"})
+  }
+  else{
+    res.status(400).send({error: "You are not logged in!"})
+  }
+}
+
+export { signup, login, logout};
