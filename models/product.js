@@ -1,4 +1,5 @@
 import mongoose from "mongoose";
+import { z } from 'zod';
 
 const productSchema = new mongoose.Schema({
   name: {
@@ -32,6 +33,17 @@ const productSchema = new mongoose.Schema({
 }, {
   timestamps: true,
 });
+
+export const productAddSchema = z.object({
+  name: z.string().min(2),
+  description: z.string().optional(),
+  price: z.number(),
+  category: z.string().min(2),
+  brand: z.string(),
+  rating: z.number().default(0),
+  numReviews: z.number().default(0),
+  image: z.string().default("/images/sample.jpg"),
+})
 
 const Product = mongoose.model("Product", productSchema);
 

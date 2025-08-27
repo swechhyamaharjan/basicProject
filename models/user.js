@@ -1,5 +1,6 @@
 import mongoose from "mongoose";
 import bcrypt, { genSalt } from "bcryptjs";
+import {z} from "zod";
 
 const userSchema = new mongoose.Schema({
   fullname: {
@@ -35,6 +36,13 @@ userSchema.pre('save', async function (next) {
 userSchema.methods.matchedPassword = async function(enteredPassword){
   return await bcrypt.compare(enteredPassword, this.password);
 }
+
+export const userAddSchema = z.object({
+  fullname: z.string().min(2),
+  email: z.email(),
+  password: z.string().min(6),
+  isAdmin: z.boolean().default(false),
+})
 
 const User = mongoose.model("User", userSchema);
 
