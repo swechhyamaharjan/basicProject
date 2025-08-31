@@ -10,3 +10,4 @@ const validateHandler = (schema) => (req, res, next) => {
   }
 }
 export default validateHandler;
+
