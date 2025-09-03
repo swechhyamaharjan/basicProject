@@ -109,3 +109,6 @@
 2025-8-31T22:16:13 PUT /api/orders/deliver/68b4738daf031b0b34113436 400 19ms
 2025-8-31T22:16:46 PUT /api/orders/pay/68b4738daf031b0b34113436 200 12ms
 2025-8-31T22:16:49 PUT /api/orders/deliver/68b4738daf031b0b34113436 200 10ms
+2025-9-3T13:7:8 POST /api/image/upload 200 6ms
+2025-9-3T13:33:57 POST /api/image/upload 200 1554ms
+2025-9-3T13:34:6 GET /api/mnfucmhyawvgioaoyrql 404 3ms

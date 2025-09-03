@@ -4,6 +4,7 @@ import productRouter from "./routers/productRouter.js"
 import orderRouter from "./routers/orderRouter.js"
 import logger from "./middlewares/logger.js";
 import cookieParser from "cookie-parser";
+import uploadRouter from "./routers/uploadRouter.js"
 
 const app = express();
 
@@ -15,5 +16,6 @@ app.use(logger);
 app.use("/api/user", userRouter);
 app.use("/api/products", productRouter);
 app.use("/api/orders", orderRouter);
+app.use("/api/image", uploadRouter);
 
 export default app;
