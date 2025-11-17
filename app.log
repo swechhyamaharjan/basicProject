@@ -112,3 +112,10 @@
 2025-9-3T13:7:8 POST /api/image/upload 200 6ms
 2025-9-3T13:33:57 POST /api/image/upload 200 1554ms
 2025-9-3T13:34:6 GET /api/mnfucmhyawvgioaoyrql 404 3ms
+2025-9-3T13:45:47 POST /api/user/login 200 97ms
+2025-9-3T13:45:59 POST /api/user/login 200 87ms
+2025-9-3T13:46:27 GET /api/products 200 17ms
+2025-9-3T13:49:50 POST /api/products 403 6ms
+2025-9-3T13:50:1 POST /api/user/login 200 90ms
+2025-9-3T13:50:5 POST /api/products 200 12ms
+2025-11-3T12:33:14 POST /api/image/upload 200 3975ms

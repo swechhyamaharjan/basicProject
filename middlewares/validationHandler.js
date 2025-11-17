@@ -6,7 +6,7 @@ const validateHandler = (schema) => (req, res, next) => {
     next();
   } catch (err) {
     err = z.flattenError(err);
-    res.status(400).send({errror: err.fieldErrors});
+    res.status(400).send({error: err.fieldErrors});
   }
 }
 export default validateHandler;
