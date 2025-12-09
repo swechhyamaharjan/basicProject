@@ -37,8 +37,10 @@ async function destroyData() {
   }
 }
 
-if (process.argv[2] === "-d"){
-  destroyData();
-}else{
-  loadData();
-}
+
+console.log(process.argv)
+// if (process.argv[2] === "-d"){
+//   destroyData();
+// }else{
+//   loadData();
+// }
