@@ -34,7 +34,10 @@ const productSchema = new mongoose.Schema({
   },
   numReviews: {
     type: Number
-  }  
+  },
+  countInStock: {
+    type: Number
+  }
 }, {
   timestamps: true,
 });
