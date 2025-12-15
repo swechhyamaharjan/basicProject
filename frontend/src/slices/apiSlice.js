@@ -8,6 +8,3 @@ export const apiSlice = createApi({
   tagTypes: ['Product', 'User', 'Order'],
   endpoints: (builder)=>({}),
 })
-
-
-
