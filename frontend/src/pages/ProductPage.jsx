@@ -3,20 +3,28 @@ import { useEffect, useState } from "react";
 import { FaAngleLeft } from "react-icons/fa";
 import { Row, Col, Container, Image, ListGroup, Card, Button} from "react-bootstrap";
 import Rating from "../components/Rating";
+import { useGetProductsByIdQuery } from "../slices/productApiSlice";
+import Loader from "../components/Loader"
+import Message from "../components/Message";
 
 function ProductPage() {
-  const [product, setProduct] = useState({});
-  const { id } = useParams()
+  // const [product, setProduct] = useState({});
+  // const { id } = useParams()
 
-  useEffect(() => {
-    fetch('/api/products/' + id)
-      .then(res => res.json())
-      .then((data) => setProduct(data))
-      .catch((error) => console.log(error.message))
-  }, [])
+  // useEffect(() => {
+  //   fetch('/api/products/' + id)
+  //     .then(res => res.json())
+  //     .then((data) => setProduct(data))
+  //     .catch((error) => console.log(error.message))
+  // }, [])
+
+  const { id } = useParams()
+  const {data: product, isLoading, error} = useGetProductsByIdQuery(id);
   return (
     <Container>
-      <Link to="/" className="btn btn-dark my-3">
+    {isLoading ? <Loader/> : error ? <Message>{error?.data?.message}</Message> : (
+      <>
+        <Link to="/" className="btn btn-dark my-3">
         <FaAngleLeft/> Go Back
       </Link>
       <Row>
@@ -75,6 +83,8 @@ function ProductPage() {
           </Card>
         </Col>
       </Row>
+      </>
+    )}
     </Container>
   )
 }

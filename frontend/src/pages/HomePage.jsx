@@ -2,21 +2,24 @@ import { useEffect, useState } from 'react'
 import { Container, Row, Col, Spinner } from 'react-bootstrap'
 import Product from '../components/Product'
 import Message from '../components/Message'
+import { useGetProductsQuery } from '../slices/productApiSlice'
 
 const HomePage = () => {
-  const [products, setProducts] = useState([]);
-  const [isLoading, setIsLoading] = useState(true);
-  const [error, setError] = useState(null);
+  // const [products, setProducts] = useState([]);
+  // const [isLoading, setIsLoading] = useState(true);
+  // const [error, setError] = useState(null);
 
-  useEffect(() => {
-    fetch("/api/products")
-      .then(res => res.json())
-      .then((data) => {
-        setProducts(data)
-        setIsLoading(false)
-      })
-      .catch((error) => setError(error.message))
-  }, [])
+  // useEffect(() => {
+  //   fetch("/api/products")
+  //     .then(res => res.json())
+  //     .then((data) => {
+  //       setProducts(data)
+  //       setIsLoading(false)
+  //     })
+  //     .catch((error) => setError(error.message))
+  // }, [])
+
+   const {data: products, isLoading, error} = useGetProductsQuery()
 
   return (
     <Container>
@@ -24,7 +27,7 @@ const HomePage = () => {
       {
         isLoading ? (
           <Spinner />
-        ) : error ? (<Message>{error}</Message>
+        ) : error ? (<Message>{error?.data?.message}</Message>
         ) : (
           <Row>
             {products.map((p) => (
