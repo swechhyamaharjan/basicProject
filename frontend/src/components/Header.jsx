@@ -1,41 +1,62 @@
-import { Navbar, Nav, Container, NavbarBrand, Badge } from 'react-bootstrap'
-import { NavLink } from 'react-router';
-import logo from "../assets/react.svg"
-import { FaShoppingCart, FaUser } from "react-icons/fa"
-import { useSelector } from 'react-redux';
+import { Navbar, Nav, Container, Badge, NavDropdown } from "react-bootstrap";
+import logo from "../assets/react.svg";
+import { NavLink } from "react-router";
+import { FaShoppingCart, FaUser } from "react-icons/fa";
+import { useSelector, useDispatch } from "react-redux";
+import { useLogoutMutation } from "../slices/userApiSlice";
+import { removeCredentials } from "../slices/authSlice";
+import { toast } from "react-toastify";
 
 function Header() {
-  const { cartItems } = useSelector((state) => state.cart)
+  const { cartItems } = useSelector((state) => state.cart);
+  const { userInfo } = useSelector((state) => state.auth);
+  const dispatch = useDispatch();
+  const [logout, {}] = useLogoutMutation();
+  const logoutHandler = async () => {
+    try {
+      await logout().unwrap();
+      dispatch(removeCredentials());
+    } catch (err) {
+      toast.error(err?.data?.error);
+    }
+  };
   return (
     <header>
       <Navbar bg="dark" variant="dark" expand="lg" collapseOnSelect>
         <Container>
           <Navbar.Brand as={NavLink} to="/">
-            <img src={logo} alt='logo' />
-            E-Commerce
+            <img src={logo} alt="logo" />
+            Broadway
           </Navbar.Brand>
-
-          <Navbar.Toggle aria-controls='nav-bar' />
-          <Navbar.Collapse id='nav-bar'>
-            <Nav className='ms-auto'>
+          <Navbar.Toggle aria-controls="nav-bar" />
+          <Navbar.Collapse id="nav-bar">
+            <Nav className="ms-auto">
               <Nav.Link as={NavLink} to="/cart">
                 <FaShoppingCart /> Cart
-                <Badge pill bg="success" style={{margin: '5px'}}>
-                  {cartItems.reduce(
-                    (acc, item) => acc + item.qty,
-                    0
-                  )}
-                </Badge>
-
+                {cartItems.length > 0 && (
+                  <Badge pill bg="success" style={{ marginLeft: "5px" }}>
+                    {cartItems.reduce((acc, item) => acc + item.qty, 0)}
+                  </Badge>
+                )}
               </Nav.Link>
-              <Nav.Link as={NavLink} to="/signin">
-                <FaUser /> Sign In
-              </Nav.Link>
+              {!userInfo ? (
+                <Nav.Link as={NavLink} to="/signin">
+                  <FaUser /> Signin
+                </Nav.Link>
+              ) : (
+                <NavDropdown title={userInfo.fullname} id="username">
+                  <NavDropdown.Item>Profile</NavDropdown.Item>
+                  <NavDropdown.Item onClick={logoutHandler}>
+                    Logout
+                  </NavDropdown.Item>
+                </NavDropdown>
+              )}
             </Nav>
           </Navbar.Collapse>
         </Container>
       </Navbar>
     </header>
-  )
+  );
 }
+
 export default Header;

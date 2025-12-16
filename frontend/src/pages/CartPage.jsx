@@ -9,7 +9,7 @@ const CartPage = () => {
   const { cartItems, itemPrice } = useSelector((state) => state.cart)
   const dispatch = useDispatch();
   const addToCartHandler = (item, qty) => {
-    dispatch(addToCart({...item, qty })) //item with updated quantity
+    dispatch(addToCart({ ...item, qty })) //item with updated quantity
   }
 
   return (
@@ -35,7 +35,7 @@ const CartPage = () => {
                           <Col md={2}> ${item.price}</Col>
                           <Col md={2}>
                             <Form.Control as="select" value={item.qty}
-                              onChange={(e) => {addToCartHandler(item, Number(e.target.value))}}>
+                              onChange={(e) => { addToCartHandler(item, Number(e.target.value)) }}>
                               {
                                 [...Array(item.countInStock).keys().map((x) => (
                                   <option key={x} value={x + 1}>
@@ -46,7 +46,7 @@ const CartPage = () => {
                             </Form.Control>
                           </Col>
                           <Col md={2}>
-                            <Button variant="light" onClick={()=>dispatch(removeFromCart(item._id))}>
+                            <Button variant="light" onClick={() => dispatch(removeFromCart(item._id))}>
                               <FaTrash />
                             </Button>
                           </Col>
@@ -55,7 +55,7 @@ const CartPage = () => {
                     ))
                   }
                   <ListGroup.Item>
-                    <Button variant="danger" onClick={()=>dispatch(clearCart())}>Clear Cart</Button>
+                    <Button variant="danger" onClick={() => dispatch(clearCart())}>Clear Cart</Button>
                   </ListGroup.Item>
                 </ListGroup>
               )
@@ -69,7 +69,9 @@ const CartPage = () => {
                 <strong>${itemPrice}</strong>
               </ListGroup.Item>
               <ListGroup.Item>
-                <Button variant="dark" disabled={cartItems.length === 0}>Proceed to checkout</Button>
+                <Button variant="dark"
+                  disabled={cartItems.length === 0}
+                  as={Link} to="/signin?redirect=/shipping">Proceed to checkout</Button>
               </ListGroup.Item>
             </ListGroup>
           </Card>
