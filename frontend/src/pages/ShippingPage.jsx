@@ -4,6 +4,7 @@ import {Form, Button} from 'react-bootstrap'
 import { useDispatch, useSelector } from 'react-redux';
 import { saveShippingAddress } from '../slices/cartSlice';
 import CheckoutStep from '../components/CheckOutStep';
+import { useNavigate } from 'react-router';
 
 const ShippingPage = () => {
   const { shippingAddress } = useSelector((state)=>state.cart)
@@ -12,16 +13,18 @@ const ShippingPage = () => {
   const [district, setDistrict] = useState(shippingAddress?.district || "");
   const [province, setProvince] = useState(shippingAddress?.province || "");
   const dispatch = useDispatch();
+  const navigate = useNavigate();
  
   const submithandler = (e)=>{
    e.preventDefault();
    dispatch(saveShippingAddress({address, city, district, province}))
+   navigate("/payment");
   }
   return (
     <>
     <FormContainer>
       <CheckoutStep step1 step2/>
-      
+
       <h2>Shipping Address</h2>
       <Form onSubmit={submithandler}>
         <Form.Group className='my-2' controlId='address'>

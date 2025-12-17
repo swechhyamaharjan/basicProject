@@ -6,16 +6,20 @@ import { useSelector, useDispatch } from "react-redux";
 import { useLogoutMutation } from "../slices/userApiSlice";
 import { removeCredentials } from "../slices/authSlice";
 import { toast } from "react-toastify";
+import { useNavigate } from "react-router";
 
 function Header() {
   const { cartItems } = useSelector((state) => state.cart);
   const { userInfo } = useSelector((state) => state.auth);
   const dispatch = useDispatch();
-  const [logout, {}] = useLogoutMutation();
+  const navigate = useNavigate();
+  const [logout, { }] = useLogoutMutation();
+
   const logoutHandler = async () => {
     try {
       await logout().unwrap();
       dispatch(removeCredentials());
+      navigate("/")
     } catch (err) {
       toast.error(err?.data?.error);
     }
