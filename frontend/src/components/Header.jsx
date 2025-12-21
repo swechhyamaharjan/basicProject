@@ -49,7 +49,7 @@ function Header() {
                 </Nav.Link>
               ) : (
                 <NavDropdown title={userInfo.fullname} id="username">
-                  <NavDropdown.Item>Profile</NavDropdown.Item>
+                  <NavDropdown.Item as={NavLink} to="/profile">Profile</NavDropdown.Item>
                   <NavDropdown.Item onClick={logoutHandler}>
                     Logout
                   </NavDropdown.Item>
