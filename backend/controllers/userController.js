@@ -54,4 +54,28 @@ const logout = async(req, res) => {
   }
 }
 
-export { signup, login, logout};
+const getUserProfile = async(req, res)=>{
+  res.send(req.user);
+}
+
+const updateProfile = async(req, res)=>{
+  const user = await User.findById(req.user._id);
+  if(!user) return res.status(404).send({error: "User Not Found!!"})
+
+  user.fullname = req.body.fullname || user.fullname  //body ma kei aako chaina bhani back to j cha tei
+  user.email = req.body.email || user.email
+
+  if(req.body.password){
+    user.password = req.body.password //because we have hashed the password //rehash garcha directly garda
+  }
+  const updatedUser = await user.save();
+  res.send({
+    message: "Profile Updated",
+    user: {
+      fullname: updatedUser.fullname,
+      email: updatedUser.email,
+    },
+  })
+};
+
+export { signup, login, logout, getUserProfile, updateProfile};

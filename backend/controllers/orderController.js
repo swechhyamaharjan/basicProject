@@ -96,7 +96,7 @@ const getEsewaFormData = async (req, res) => {
     "product_code": "EPAYTEST",
     "signature": generateSignature(`total_amount=${order.totalPrice},transaction_uuid=${order._id},product_code=EPAYTEST`),
     "signed_field_names": "total_amount,transaction_uuid,product_code",
-    "success_url": "https://localhost:3000/api/orders/confirm-payment",
+    "success_url": "http://localhost:3000/api/orders/confirm-payment",
     "tax_amount": "0",
     "total_amount": order.totalPrice,
     "transaction_uuid": order._id,
@@ -107,7 +107,7 @@ const getEsewaFormData = async (req, res) => {
 
 const confirmPayment = async (req, res) => {
   const { data } = req.query;
-  const decodeData = json.parse(Buffer.from(data,  "base64").toString("utf-8"));
+  const decodeData = JSON.parse(Buffer.from(data,  "base64").toString("utf-8"));
   //res.send(decodeData);
   if(decodeData.status == "COMPLETE"){
     const orderId = decodeData.transaction_uuid
