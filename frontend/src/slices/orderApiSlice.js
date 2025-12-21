@@ -16,7 +16,12 @@ const orderApiSlice = apiSlice.injectEndpoints({
       }), 
       keepUnusedDataFor: 5,
     }),
+    getEsewa: builder.query({
+      query: (orderId)=>({
+        url: `${ORDER_URL}/getesewaformdata/${orderId}`,
+      })
+    })
   }),
 })
 
-export const { usePlaceOrderMutation, useGetOrderDetailsQuery } = orderApiSlice;
+export const { usePlaceOrderMutation, useGetOrderDetailsQuery, useGetEsewaQuery } = orderApiSlice;

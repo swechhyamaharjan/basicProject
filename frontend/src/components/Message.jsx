@@ -1,8 +1,8 @@
 import { Alert } from "react-bootstrap";
 
-function Message({children}){
+function Message({variant="danger", children}){ //by default danger
    return(
-    <Alert variant="danger">{children}</Alert>
+    <Alert variant={variant}>{children}</Alert>
    )
 }
 export default Message;

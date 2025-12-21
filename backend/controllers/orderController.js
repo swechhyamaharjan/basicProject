@@ -1,5 +1,6 @@
 import Order from "../models/order.js";
 import Product from "../models/product.js";
+import { generateSignature } from "../utils/esewaUtils.js";
 
 const addOrder = async (req, res) => {
   const { orderItems, shippingAddress, shippingCharge, paymentMethod } = req.body;
@@ -7,30 +8,32 @@ const addOrder = async (req, res) => {
     _id: { $in: orderItems.map((item) => item._id) },
   });
 
-  const newOrderItems = orderItems.map((item) => {
-    const actualItem = orderItemsFromDb.find((i) => i._id == item._id);
-    return {
-      ...item,
-      price: actualItem.price,
-      _id: null,
-      productId: actualItem._id,
-    };
-  });
+ const newOrderItems = orderItems.map((item) => {
+  const actualItem = orderItemsFromDb.find((i) => i._id.toString() === item._id);
+  if (!actualItem) throw new Error(`Product not found: ${item._id}`);
+  return {
+    ...item,
+    price: actualItem.price,
+    _id: null,
+    productId: actualItem._id,
+  };
+});
+
 
   const itemPrice = newOrderItems
     .reduce((total, item) => total + Number(item.qty) * Number(item.price), 0)
     .toFixed(2);
 
   const totalPrice = (Number(itemPrice) + Number(shippingCharge)).toFixed(2);
- const order = await Order.create({
-  orderItems: newOrderItems,
-  shippingAddress,
-  shippingCharge,
-  itemPrice,
-  totalPrice,
-  paymentMethod,
-  user: req.user._id,
-});
+  const order = await Order.create({
+    orderItems: newOrderItems,
+    shippingAddress,
+    shippingCharge,
+    itemPrice,
+    totalPrice,
+    paymentMethod,
+    user: req.user._id,
+  });
   res.send({ message: "Order placed successfully", orderId: order._id });
 };
 
@@ -79,6 +82,44 @@ const deliverOrder = async (req, res) => {
   }
 };
 
+//route: /api/orders/getesewaformdata/:id
+const getEsewaFormData = async (req, res) => {
+  const { id: orderId } = req.params;
+  const order = await Order.findById(orderId);
+  console.log(orderId);
+  if (!order) return res.status(404).send({ error: "Order Not Found!!" })
+  res.send({
+    "amount": order.totalPrice,
+    "failure_url": "https://localhost:5173/order/" + order._id,
+    "product_delivery_charge": order.shippingCharge,
+    "product_service_charge": 0,
+    "product_code": "EPAYTEST",
+    "signature": generateSignature(`total_amount=${order.totalPrice},transaction_uuid=${order._id},product_code=EPAYTEST`),
+    "signed_field_names": "total_amount,transaction_uuid,product_code",
+    "success_url": "https://localhost:3000/api/orders/confirm-payment",
+    "tax_amount": "0",
+    "total_amount": order.totalPrice,
+    "transaction_uuid": order._id,
+  })
+};
+
+//https://localhost:3000/api/order/confirm-payment?data=eyJ0cmFuc2FjdGlvbl9jb2RlIjoiMDAwREZFWiIsInN0YXR1cyI6IkNPTVBMRVRFIiwidG90YWxfYW1vdW50IjoiNTk5Ljk5IiwidHJhbnNhY3Rpb25fdXVpZCI6IjY5NDdiNTRjNDdjMzY2MjQ2Mzg0N2I4NiIsInByb2R1Y3RfY29kZSI6IkVQQVlURVNUIiwic2lnbmVkX2ZpZWxkX25hbWVzIjoidHJhbnNhY3Rpb25fY29kZSxzdGF0dXMsdG90YWxfYW1vdW50LHRyYW5zYWN0aW9uX3V1aWQscHJvZHVjdF9jb2RlLHNpZ25lZF9maWVsZF9uYW1lcyIsInNpZ25hdHVyZSI6Im1tTnIwK3pxVVlSaG5DdXdndmhyY0lQTi9Wc1VRSnNNM3ViU051ZlU2bmc9In0=
+
+const confirmPayment = async (req, res) => {
+  const { data } = req.query;
+  const decodeData = json.parse(Buffer.from(data,  "base64").toString("utf-8"));
+  //res.send(decodeData);
+  if(decodeData.status == "COMPLETE"){
+    const orderId = decodeData.transaction_uuid
+    const order = await Order.findById(orderId)
+    order.isPaid = true
+    order.paidAt = new Date()
+    await order.save()
+    return res.redirect("http://localhost:5173/order/" + order._id);
+  }
+
+}
+
 export {
   addOrder,
   getOrders,
@@ -86,4 +127,6 @@ export {
   getOrderById,
   payOrder,
   deliverOrder,
+  getEsewaFormData,
+  confirmPayment
 };
