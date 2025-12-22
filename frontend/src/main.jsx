@@ -15,6 +15,7 @@ import PrivatePage from './pages/PrivatePage.jsx'
 import PlaceOrderPage from './pages/PlaceOrderPage.jsx'
 import OrderPage from './pages/OrderPage.jsx'
 import ProfilePage from './pages/ProfilePage.jsx'
+import RegisterPage from './pages/RegisterPage.jsx'
 
 createRoot(document.getElementById('root')).render(
   <Provider store={store}>
@@ -23,6 +24,7 @@ createRoot(document.getElementById('root')).render(
         <Route path='/' element={<App />}>   {/* parent */}
           <Route path='' element={<HomePage />}></Route>   {/* childrens */}
           <Route path='/signin' element={<SigninPage />}></Route>  
+          <Route path='/register' element={<RegisterPage />}></Route>
           <Route path='/product/:id' element={<ProductPage />}></Route>
           <Route path='' element= {<PrivatePage />}>
           <Route path='/shipping' element={<ShippingPage/>}></Route>

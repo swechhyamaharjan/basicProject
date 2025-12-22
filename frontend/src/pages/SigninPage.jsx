@@ -60,7 +60,7 @@ useEffect(() => {
       </Form>
 
       <div className='my-3'>
-        <Link >New Customer? Register Here</Link>
+        <Link to='/register'>New Customer? Register Here</Link>
       </div>
     </FormContainer>
   )
