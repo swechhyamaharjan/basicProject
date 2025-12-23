@@ -22,9 +22,20 @@ const getTopProducts = async (req, res) => {
 }
 
 const addProduct = async (req, res) => {
-  const productBody = req.body;
-  const product = await Product.create({...productBody, user: req.user._id});
-  res.send({message: "Product Added Successfully!!", product});
+  // const productBody = req.body;
+  // const product = await Product.create({...productBody, user: req.user._id});
+
+  const product = {
+    name: "Sample Product",
+    price: 0,
+    category: "Sample category",
+    brand: "Sample Brand",
+    image: "/images/sample.jpg",
+    countInStock: 0,
+    user: req.user._id
+  }
+  const addedProduct = await Product.create(product)
+  res.send({message: "Product Added Successfully!!", addedProduct});
 }
 
 const updateProduct = async (req, res) => {

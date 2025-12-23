@@ -18,6 +18,7 @@ import ProfilePage from './pages/ProfilePage.jsx'
 import RegisterPage from './pages/RegisterPage.jsx'
 import AdminRoute from './components/AdminRoute.jsx'
 import OrderListPage from './pages/Admin/OrderListPage.jsx'
+import ProductListPage from './pages/Admin/ProductListPage.jsx'
 
 createRoot(document.getElementById('root')).render(
   <Provider store={store}>
@@ -40,6 +41,7 @@ createRoot(document.getElementById('root')).render(
           {/* Admin side */}
           <Route path='/' element={<AdminRoute/>}>
            <Route path='/admin/orders' element={<OrderListPage/>}></Route>
+           <Route path='/admin/products' element={<ProductListPage/>}></Route>
           </Route>
         </Route>
       </Routes>
