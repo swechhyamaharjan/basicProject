@@ -54,9 +54,11 @@ const logout = async(req, res) => {
   }
 }
 
-const getUserProfile = async(req, res)=>{
-  res.send(req.user);
-}
+const getUserProfile = async (req, res) => {
+  const users = await User.find({}).select("-password"); // exclude password
+  res.json(users);
+};
+
 
 const updateProfile = async(req, res)=>{
   const user = await User.findById(req.user._id);
@@ -78,4 +80,12 @@ const updateProfile = async(req, res)=>{
   })
 };
 
-export { signup, login, logout, getUserProfile, updateProfile};
+const deleteUser = async (req, res) => {
+  const userId = req.params.id;
+  const deletedUser = await User.findByIdAndDelete(userId);
+  if(!deletedUser) return res.status(404).send({error: "User not found!!"});
+  res.send({message: "User deleted successfully", deletedUser});
+};
+
+export { signup, login, logout, getUserProfile, updateProfile, deleteUser};
+

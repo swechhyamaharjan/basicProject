@@ -9,6 +9,7 @@ function OrderListPage() {
   const { data: orders, isLoading, error } = useGetOrdersQuery();
   return (
     <>
+    <h2>Orders</h2>
       {isLoading ? <Loader /> : error ? <Message>{error?.data?.error}</Message> : (
         <Table striped hover responsive className='table-sm'>
           <thead>

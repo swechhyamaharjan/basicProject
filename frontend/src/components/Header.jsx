@@ -59,7 +59,7 @@ function Header() {
                 <NavDropdown title= "Admin" id="admin">
                   <NavDropdown.Item as={NavLink} to='/admin/orders'>Orders</NavDropdown.Item>
                   <NavDropdown.Item as={NavLink} to='/admin/products'>Products</NavDropdown.Item>
-                  <NavDropdown.Item as={NavLink} to='/admin/userss'>Users</NavDropdown.Item>
+                  <NavDropdown.Item as={NavLink} to='/admin/users'>Users</NavDropdown.Item>
                 </NavDropdown>
               )}
             </Nav>
