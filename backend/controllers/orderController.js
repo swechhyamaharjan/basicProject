@@ -38,7 +38,7 @@ const addOrder = async (req, res) => {
 };
 
 const getOrders = async (req, res) => {
-  const orders = await Order.find();
+  const orders = await Order.find().populate("user", "fullname email");
   res.send(orders);
 };
 
@@ -76,7 +76,7 @@ const deliverOrder = async (req, res) => {
     order.isDelivered = true;
     order.deliveredAt = Date.now();
     await order.save();
-    res.send({ message: "Order delviered!!!" });
+    res.send({ message: "Order delivered!!!" });
   } else {
     res.status(400).send({ error: "Order not paid yet!" });
   }

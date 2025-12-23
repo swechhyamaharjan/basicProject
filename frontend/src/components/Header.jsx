@@ -55,6 +55,13 @@ function Header() {
                   </NavDropdown.Item>
                 </NavDropdown>
               )}
+              {userInfo && userInfo.isAdmin && (
+                <NavDropdown title= "Admin" id="admin">
+                  <NavDropdown.Item as={NavLink} to='/admin/orders'>Orders</NavDropdown.Item>
+                  <NavDropdown.Item as={NavLink} to='/admin/products'>Products</NavDropdown.Item>
+                  <NavDropdown.Item as={NavLink} to='/admin/userss'>Users</NavDropdown.Item>
+                </NavDropdown>
+              )}
             </Nav>
           </Navbar.Collapse>
         </Container>

@@ -8,6 +8,8 @@ import { setCredentials } from '../slices/authSlice'
 import {Link} from 'react-router'
 
 import { toast } from 'react-toastify'
+import Loader from '../components/Loader'
+import Message from '../components/Message'
 
 const ProfilePage = () => {
   const { userInfo } = useSelector((state) => state.auth)
@@ -93,7 +95,8 @@ const ProfilePage = () => {
         {/* FOR MY ORDERS */}
        <Col md={9}>
           <h2>Orders</h2>
-          <Table striped hover responsive className="table-sm">
+          {isLoading ? <Loader /> : error? <Message>{error?.data?.error}</Message> : (
+            <Table striped hover responsive className="table-sm">
             <thead>
               <tr>
                 <th>ID</th>
@@ -136,6 +139,7 @@ const ProfilePage = () => {
               ))}
             </tbody>
           </Table>
+          )}
         </Col>
       </Row>
     </>

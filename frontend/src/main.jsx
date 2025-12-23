@@ -16,11 +16,14 @@ import PlaceOrderPage from './pages/PlaceOrderPage.jsx'
 import OrderPage from './pages/OrderPage.jsx'
 import ProfilePage from './pages/ProfilePage.jsx'
 import RegisterPage from './pages/RegisterPage.jsx'
+import AdminRoute from './components/AdminRoute.jsx'
+import OrderListPage from './pages/Admin/OrderListPage.jsx'
 
 createRoot(document.getElementById('root')).render(
   <Provider store={store}>
     <BrowserRouter>
       <Routes>
+        {/* User side */}
         <Route path='/' element={<App />}>   {/* parent */}
           <Route path='' element={<HomePage />}></Route>   {/* childrens */}
           <Route path='/signin' element={<SigninPage />}></Route>  
@@ -33,6 +36,10 @@ createRoot(document.getElementById('root')).render(
           <Route path='/profile' element={<ProfilePage/>}></Route>
           <Route path="/order/:id" element={<OrderPage/>}/>
           <Route path='/cart' element={<CartPage />}></Route>
+          </Route>
+          {/* Admin side */}
+          <Route path='/' element={<AdminRoute/>}>
+           <Route path='/admin/orders' element={<OrderListPage/>}></Route>
           </Route>
         </Route>
       </Routes>
