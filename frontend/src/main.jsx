@@ -20,6 +20,7 @@ import AdminRoute from './components/AdminRoute.jsx'
 import OrderListPage from './pages/Admin/OrderListPage.jsx'
 import ProductListPage from './pages/Admin/ProductListPage.jsx'
 import UserListPage from './pages/Admin/UserListPage.jsx'
+import ProductEditPage from './pages/Admin/ProductEditPage.jsx'
 
 createRoot(document.getElementById('root')).render(
   <Provider store={store}>
@@ -28,22 +29,23 @@ createRoot(document.getElementById('root')).render(
         {/* User side */}
         <Route path='/' element={<App />}>   {/* parent */}
           <Route path='' element={<HomePage />}></Route>   {/* childrens */}
-          <Route path='/signin' element={<SigninPage />}></Route>  
-          <Route path='/register' element={<RegisterPage />}></Route>
-          <Route path='/product/:id' element={<ProductPage />}></Route>
+          <Route path='signin' element={<SigninPage />}></Route>  
+          <Route path='register' element={<RegisterPage />}></Route>
+          <Route path='product/:id' element={<ProductPage />}></Route>
           <Route path='' element= {<PrivatePage />}>
-          <Route path='/shipping' element={<ShippingPage/>}></Route>
-          <Route path='/payment' element={<PaymentPage/>}></Route>
-          <Route path='/place-order' element={<PlaceOrderPage/>}></Route>
-          <Route path='/profile' element={<ProfilePage/>}></Route>
-          <Route path="/order/:id" element={<OrderPage/>}/>
-          <Route path='/cart' element={<CartPage />}></Route>
+          <Route path='shipping' element={<ShippingPage/>}></Route>
+          <Route path='payment' element={<PaymentPage/>}></Route>
+          <Route path='place-order' element={<PlaceOrderPage/>}></Route>
+          <Route path='profile' element={<ProfilePage/>}></Route>
+          <Route path="order/:id" element={<OrderPage/>}/>
+          <Route path='cart' element={<CartPage />}></Route>
           </Route>
           {/* Admin side */}
           <Route path='/' element={<AdminRoute/>}>
-           <Route path='/admin/orders' element={<OrderListPage/>}></Route>
-           <Route path='/admin/products' element={<ProductListPage/>}></Route>
-           <Route path='/admin/users' element={<UserListPage/>}></Route>
+           <Route path='admin/orders' element={<OrderListPage/>}></Route>
+           <Route path='admin/products' element={<ProductListPage/>}></Route>
+           <Route path='admin/users' element={<UserListPage/>}></Route>
+           <Route path='admin/product/:id/edit' element={<ProductEditPage/>}></Route>
           </Route>
         </Route>
       </Routes>

@@ -5,7 +5,7 @@ import { addToCart } from "../slices/cartSlice";
 import { useDispatch } from "react-redux";
 import { Row, Col, Container, Image, ListGroup, Card, Button, Form } from "react-bootstrap";
 import Rating from "../components/Rating";
-import { useGetProductsByIdQuery } from "../slices/productApiSlice";
+import { useGetProductByIdQuery} from "../slices/productApiSlice";
 import Loader from "../components/Loader"
 import Message from "../components/Message";
 
@@ -24,7 +24,7 @@ function ProductPage() {
   const { id } = useParams()
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const { data: product, isLoading, error } = useGetProductsByIdQuery(id);
+  const { data: product, isLoading, error } = useGetProductByIdQuery(id);
 
   const addToCartHandler = ()=>{
     dispatch(addToCart({...product, qty }))

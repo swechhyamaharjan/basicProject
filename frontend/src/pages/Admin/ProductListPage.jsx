@@ -5,6 +5,7 @@ import { useAddProductMutation, useDeleteProductMutation } from "../../slices/pr
 import Loader from "../../components/Loader";
 import Message from "../../components/Message";
 import { toast } from "react-toastify";
+import { Link } from "react-router";
 
 const ProductListPage = () => {
   const { data: products, isLoading, error } = useGetProductsQuery();
@@ -38,7 +39,7 @@ const ProductListPage = () => {
         <Col>
           <h2>Products</h2>
         </Col>
-        <Col>
+        <Col className="text-end">
           <Button variant="dark" size="sm"
             onClick={addProductHandler}><FaEdit /> Add Products</Button>
         </Col>
@@ -69,9 +70,11 @@ const ProductListPage = () => {
                           <td>{product.category}</td>
                           <td>{product.brand}</td>
                           <td>
-                            <Button variant="light" size="sm">
+                            <Link className="btn btn-light btn-sm" variant="light" size="sm"
+                            to={`/admin/product/${product._id}/edit`}
+                            >
                               <FaEdit />
-                            </Button>
+                            </Link>
                             <Button variant="light" size="sm" className="ms-2"
                               onClick={() => deleteProductHandler(product._id)}>
                               <FaTrash style={{ color: "red" }} />
