@@ -16,6 +16,6 @@ app.use(logger);
 app.use("/api/user", userRouter);
 app.use("/api/products", productRouter);
 app.use("/api/orders", orderRouter);
-app.use("/api/image", uploadRouter);
+app.use("/api/upload", uploadRouter);
 
 export default app;

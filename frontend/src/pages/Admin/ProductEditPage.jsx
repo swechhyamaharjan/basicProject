@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import {
   useGetProductByIdQuery,
   useUpdateProductMutation,
+  useUploadProductImageMutation
 } from "../../slices/productApiSlice";
 import { Link, useNavigate, useParams } from "react-router";
 import FormContainer from "../../components/FormContainer";
@@ -21,6 +22,7 @@ function ProductEditPage() {
   const { id } = useParams();
   const { data: product, isLoading, error } = useGetProductByIdQuery(id);
   const [updateProduct, { }] = useUpdateProductMutation();
+  const [uploadProductImage, { isLoading: imageLoading }] = useUploadProductImageMutation();
 
   const updateProductHandler = async (e) => {
     e.preventDefault();
@@ -40,6 +42,7 @@ function ProductEditPage() {
       toast.error(err?.data?.error || err?.error);
     }
   };
+
   useEffect(() => {
     if (product) {
       setName(product.name);
@@ -50,6 +53,18 @@ function ProductEditPage() {
       setImage(product.image)
     }
   }, [product]);
+
+  const uploadProductImageHandler = async (e) => {
+    const formData = new FormData();
+    formData.append("image", e.target.files[0]);
+    try {
+      const resp = await uploadProductImage(formData).unwrap();
+      setImage(resp.file);
+      toast.success(resp.message);
+    } catch (err) {
+      toast.error(err?.data?.error || err?.error);
+    }
+  };
 
 
   return (
@@ -79,8 +94,12 @@ function ProductEditPage() {
 
           <Form.Group className="my-2">
             <Form.Label>Image</Form.Label>
-            <Form.Control type="text" value={image}/>
-            <Form.Control type="file" label="Choose Image" />
+            <Form.Control type="text" value={image} />
+            <Form.Control
+              type="file"
+              label="Choose Image"
+              onChange={uploadProductImageHandler}
+            />
           </Form.Group>
 
           <Form.Group className="my-2">
