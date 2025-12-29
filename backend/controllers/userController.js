@@ -87,5 +87,37 @@ const deleteUser = async (req, res) => {
   res.send({message: "User deleted successfully", deletedUser});
 };
 
-export { signup, login, logout, getUserProfile, updateProfile, deleteUser};
+const getUserById = async (req, res) => {
+  const userId = req.params.id;
+  const user = await User.findById(userId);
+  if(!user) return res.status(404).send({error: "User not found!!"})
+    res.send(user);
+}
+
+const updateUser = async (req, res) => {
+  try {
+    const userBody = req.body;
+    const userId = req.params.id;
+
+    const updatedUser = await User.findByIdAndUpdate(
+      userId,
+      userBody,
+      { new: true }
+    );
+
+    if (!updatedUser) {
+      return res.status(404).send({ error: "User not found" });
+    }
+
+    res.send({
+      message: "User updated successfully",
+      updatedUser
+    });
+  } catch (error) {
+    res.status(500).send({ error: "Server error" });
+  }
+};
+
+
+export { signup, login, logout, getUserProfile, updateProfile, deleteUser, getUserById, updateUser};
 

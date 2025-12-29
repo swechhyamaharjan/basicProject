@@ -6,6 +6,7 @@ import Message from "../../components/Message"
 import { FaEdit, FaTrash } from "react-icons/fa"
 import { useDeleteUserMutation } from "../../slices/userApiSlice"
 import { toast } from "react-toastify"
+import { Link } from "react-router"
 
 const UserListPage = () => {
   const {data: users, isLoading, error} = useGetUsersQuery();
@@ -44,7 +45,7 @@ const UserListPage = () => {
               <td>{user.fullname}</td>
               <td>{user.email}</td>
               <td>
-                <Button variant="light" size="sm"><FaEdit /></Button>
+                <Link className="btn btn-light btn-sm" to={`/admin/user/${user._id}/edit`}><FaEdit /></Link>
                 <Button variant="light" size="sm" className="ms-2"
                 onClick={()=>{deleteUserHandler(user._id)}}><FaTrash style={{color: "red"}}/></Button>
               </td>

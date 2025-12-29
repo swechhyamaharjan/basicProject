@@ -21,6 +21,7 @@ import OrderListPage from './pages/Admin/OrderListPage.jsx'
 import ProductListPage from './pages/Admin/ProductListPage.jsx'
 import UserListPage from './pages/Admin/UserListPage.jsx'
 import ProductEditPage from './pages/Admin/ProductEditPage.jsx'
+import UserEditPage from './pages/Admin/UserEditPage.jsx'
 
 createRoot(document.getElementById('root')).render(
   <Provider store={store}>
@@ -46,6 +47,7 @@ createRoot(document.getElementById('root')).render(
            <Route path='admin/products' element={<ProductListPage/>}></Route>
            <Route path='admin/users' element={<UserListPage/>}></Route>
            <Route path='admin/product/:id/edit' element={<ProductEditPage/>}></Route>
+           <Route path='admin/user/:id/edit' element={<UserEditPage/>}></Route>
           </Route>
         </Route>
       </Routes>
