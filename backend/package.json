@@ -1,18 +1,14 @@
 {
-  "name": "basicproject",
+  "name": "backend",
   "version": "1.0.0",
-  "main": "index.js",
   "type": "module",
+  "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "server": "nodemon --env-file=.env backend/index.js",
-    "dataDestroy": "node --env-file=.env backend/seeders.js -d",
-    "dataLoad": "node --env-file=.env backend/seeders.js"
+    "start": "node index.js",
+    "dev": "nodemon --env-file=.env index.js",
+    "data:destroy": "node --env-file=.env seeders.js -d",
+    "data:load": "node --env-file=.env seeders.js"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "description": "",
   "dependencies": {
     "bcryptjs": "^3.0.2",
     "cloudinary": "^1.41.3",
